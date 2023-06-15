@@ -5,7 +5,9 @@ import axios from "axios"
 // news api
 
 export class News extends Component {
-    API_KEY="dbe88412809248e1a26496b12277d524";
+    // API_KEY="dbe88412809248e1a26496b12277d524";
+    API_KEY="7d1169c1fc320c5c384409bccf7f735b"
+   
     page_size=9;
     number_of_articles=0;
     constructor(){ 
@@ -22,7 +24,9 @@ export class News extends Component {
     async componentDidMount()
     {
         this.setState({loading:true});
-        let url="https://newsapi.org/v2/top-headlines?country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page)+"&pageSize="+this.page_size;
+        // let url="https://newsapi.org/v2/top-headlines?country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page)+"&pageSize="+this.page_size;
+        let url="https://gnews.io/api/v4/top-headlines?apikey="+this.API_KEY+"&country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&lang=en";
+        // let url="https://api.newscatcherapi.com/v2/countries=CA&page_size=1"
         // let data=await fetch(url);
         // let parsed_data=await data.json();
         // this.setState(
@@ -49,7 +53,9 @@ export class News extends Component {
     handlePrev=async ()=>
     {
         this.setState({loading:true});
-        let url="https://newsapi.org/v2/top-headlines?country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page-1)+"&pageSize="+this.page_size;
+        // let url="https://newsapi.org/v2/top-headlines?country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page-1)+"&pageSize="+this.page_size;
+        let url="https://gnews.io/api/v4/top-headlines?apikey="+this.API_KEY+"&country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page-1)+"&max="+this.page_size;
+
         
         // let data=await fetch(url);
         // let parsed_data=await data.json();
@@ -73,7 +79,9 @@ export class News extends Component {
     handleNext=async ()=>
     {   
         this.setState({loading:true});
-        let url="https://newsapi.org/v2/top-headlines?country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page+1)+"&pageSize="+this.page_size;
+        // let url="https://newsapi.org/v2/top-headlines?country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page+1)+"&pageSize="+this.page_size;
+        let url="https://gnews.io/api/v4/top-headlines?apikey="+this.API_KEY+"&country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page+1)+"&max="+this.page_size;
+
         // let data=await fetch(url);
         // let parsed_data=await data.json();
         // console.log(url);
@@ -102,8 +110,8 @@ export class News extends Component {
                 <div className="row container">
                 {this.state.loading ==false && this.state.articles.map((element) => {
                     return <div className="col-lg-4 col-md-6 col-sm-12 my-5" key={element.url}>
-                        <NewsComponent title={element.title && element.title.slice(0,30)+"..."} description={element.description && element.description.slice(0,88)+"..."} urlToImage={!element.urlToImage?this.default_image:element.urlToImage} url={element.url}
-                        date={element.publishedAt} author={element.author}
+                        <NewsComponent title={element.title && element.title.slice(0,30)+"..."} description={element.description && element.description.slice(0,88)+"..."} urlToImage={!element.image?this.default_image:element.image} url={element.url}
+                        date={element.publishedAt} author={element.source.name}
                         />
                     </div>
                 })}
