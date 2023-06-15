@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Loader from './Loader';
 import NewsComponent from './NewsComponent'
+import axios from "axios"
 // news api
 
 export class News extends Component {
@@ -22,14 +23,27 @@ export class News extends Component {
     {
         this.setState({loading:true});
         let url="https://newsapi.org/v2/top-headlines?country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page)+"&pageSize="+this.page_size;
-        let data=await fetch(url);
-        let parsed_data=await data.json();
-        this.setState(
-            {   articles:parsed_data.articles
-            }
-            );
-        this.number_of_articles=parsed_data.totalResults;
+        // let data=await fetch(url);
+        // let parsed_data=await data.json();
+        // this.setState(
+        //     {   articles:parsed_data.articles
+        //     }
+        //     );
+        // this.number_of_articles=parsed_data.totalResults;
+        // this.setState({loading:false});
+        axios.get(url).then((res)=>
+        {
+            console.log(res.data.articles)    
+            this.setState(
+                {   articles:res.data.articles
+                }
+                );
+        this.number_of_articles=res.data.totalResults;
         this.setState({loading:false});
+        }).catch((err)=>
+        {
+            console.log(err)
+        })
         // console.log(Math.ceil(this.page_size/this.number_of_articles));
     }
     handlePrev=async ()=>
@@ -37,29 +51,47 @@ export class News extends Component {
         this.setState({loading:true});
         let url="https://newsapi.org/v2/top-headlines?country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page-1)+"&pageSize="+this.page_size;
         
-        let data=await fetch(url);
-        let parsed_data=await data.json();
-        this.setState(
-            {   page:this.state.page-1,
-                articles:parsed_data.articles
-            }
-            );
-        this.setState({loading:false});
+        // let data=await fetch(url);
+        // let parsed_data=await data.json();
+        // this.setState(
+        //     {   page:this.state.page-1,
+        //         articles:parsed_data.articles
+        //     }
+        //     );
+        // this.setState({loading:false});
+        axios.get(url).then((res)=>
+        {
+            this.setState(
+                {   page:this.state.page-1,
+                    articles:res.data.articles
+                }
+                );
+            this.setState({loading:false});
+        })
       
     }
     handleNext=async ()=>
     {   
         this.setState({loading:true});
         let url="https://newsapi.org/v2/top-headlines?country="+this.props.country+"&category="+this.props.category+"&apiKey="+this.API_KEY+"&page="+(this.state.page+1)+"&pageSize="+this.page_size;
-        let data=await fetch(url);
-        let parsed_data=await data.json();
-        console.log(url);
-        this.setState(
-            {   page:this.state.page+1,
-                articles:parsed_data.articles
-            }
-            );
-        this.setState({loading:false});
+        // let data=await fetch(url);
+        // let parsed_data=await data.json();
+        // console.log(url);
+        // this.setState(
+        //     {   page:this.state.page+1,
+        //         articles:parsed_data.articles
+        //     }
+        //     );
+        // this.setState({loading:false});
+        axios.get(url).then((res)=>
+        {
+            this.setState(
+                {   page:this.state.page+1,
+                    articles:res.data.articles
+                }
+                );
+            this.setState({loading:false});
+        })
     }
     render() {
         
